@@ -8,5 +8,8 @@
     "default_popup": "static/index.html"
   },
 
-  "options_page": "static/options.html"
+  "options_page": "static/options.html",
+  "permissions": [
+    "storage"
+  ]
 }
