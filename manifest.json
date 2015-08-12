@@ -1,0 +1,12 @@
+{
+  "manifest_version": 2,
+  "name": "Grouchy",
+  "version": "1.0",
+
+  "browser_action": {
+    "default_title": "Grouchy",
+    "default_popup": "static/index.html"
+  },
+
+  "options_page": "static/options.html"
+}
