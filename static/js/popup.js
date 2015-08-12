@@ -1,3 +1,6 @@
+var viewableArray = [];
+
+
 $(document).ready(function() {
   // Get the storage values
   chrome.storage.sync.get(null, function(items) {
@@ -15,7 +18,8 @@ $(document).ready(function() {
       
       // check if shown
       if (values["is_shown"]) {
-        console.log(values);
+        viewableArray.push({"tagName": tagName,
+                           "type": formType});
       } else {
         return;
       }
@@ -53,9 +57,33 @@ $(document).ready(function() {
 });
 
 $('#sMTM').click(function() {
+  // Build URI
+  var textURI = "?";
+
+  for (var i = 0; i < viewableArray.length; i++) {
+    // Separate values for dd or textfield
+    switch(viewableArray[i]["type"]) {
+      case "dd":
+        var e = document.getElementById('dd-' + viewableArray[i]["tagName"]);
+        var selected = e.options[e.selectedIndex].value;
+        // concat to string
+        textURI += "&" + (viewableArray[i]["tagName"] + "=" + selected);
+        break;
+
+      case "text":
+        var e = document.getElementById('text-' + viewableArray[i]["tagName"]).value;
+        // concat to string
+        textURI += "&" + (viewableArray[i]["tagName"] + "=" + e);
+    }
+  }
+
+  // Search string
+  var searchURI = encodeURI(textURI);
+  console.log(searchURI);
+
   // Find all the links
   // var $parsed = $.parseHTML(document.getElementById('contentArea').value)
-   var htmlString = document.getElementById('contentArea').value;
+  var htmlString = document.getElementById('contentArea').value;
   // var $anchors = $htmlString.find('a');
 
   // console.log($parsed);
@@ -67,9 +95,14 @@ $('#sMTM').click(function() {
 
     // Filter out correct links
     if ((linkObjects[i].search).startsWith('?')) {
+      linkObjects[i].search = searchURI;
       console.log(linkObjects[i])
+      console.log(linkObjects[i].search)
+      // 
     }
   }
 
+  // Add it to the formatted box
+  $('#formattedHTML').val($('.htmlTemplate').html());
 });
 
