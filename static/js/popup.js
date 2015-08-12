@@ -58,27 +58,42 @@ $(document).ready(function() {
 
 $('#sMTM').click(function() {
   // Build URI
-  var textURI = "?";
+  var searchURI = "?";
 
   for (var i = 0; i < viewableArray.length; i++) {
     // Separate values for dd or textfield
     switch(viewableArray[i]["type"]) {
       case "dd":
-        var e = document.getElementById('dd-' + viewableArray[i]["tagName"]);
-        var selected = e.options[e.selectedIndex].value;
-        // concat to string
-        textURI += "&" + (viewableArray[i]["tagName"] + "=" + selected);
+        if (viewableArray[i]["tagName"] !== "kmi"){
+          var e = document.getElementById('dd-' + viewableArray[i]["tagName"]);
+          var selected = e.options[e.selectedIndex].value;
+          // concat to string
+          searchURI += encodeURI("&" + (viewableArray[i]["tagName"] + "=" + selected));
+        } else {
+          var e = document.getElementById('dd-' + viewableArray[i]["tagName"]);
+          var selected = e.options[e.selectedIndex].value;
+          // concat to string
+          searchURI += ("&" + (viewableArray[i]["tagName"] + "=" + selected));
+        }
         break;
 
       case "text":
         var e = document.getElementById('text-' + viewableArray[i]["tagName"]).value;
         // concat to string
-        textURI += "&" + (viewableArray[i]["tagName"] + "=" + e);
+        searchURI += encodeURI("&" + (viewableArray[i]["tagName"] + "=" + e));
+        break;
     }
+
+    // // CHECK FOR KMI
+    // console.log(viewableArray[i]["tagName"]);
+    // if (viewableArray[i]["tagName"] == "kmi") {
+    //   var e = document.getElementById('dd-kmi');
+    //   var selected = e.options[e.selectedIndex].value;
+    //   searchURI += ("&kmi=" + selected);
+    // }
   }
 
   // Search string
-  var searchURI = encodeURI(textURI);
   console.log(searchURI);
 
   // Find all the links
