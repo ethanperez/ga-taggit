@@ -1,10 +1,10 @@
 {
   "manifest_version": 2,
-  "name": "Grouchy",
+  "name": "GA Swappy",
   "version": "1.0",
 
   "browser_action": {
-    "default_title": "Grouchy",
+    "default_title": "Swappy",
     "default_popup": "static/index.html"
   },
 

@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>GA UTM Replace</title>
+    <title>GA Swappy</title>
 
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -30,68 +30,26 @@
         </div>
       </div>
 
-      <form class="form-horizontal">
-        <div class="form-group">
-          <label class="col-xs-4 control-label text-right">km_metro</label>
-          <div class="col-xs-8">
-            <select class="form-control">
-              <option value="austin">austin</option>
-              <option value="atlanta">atlanta</option>
-              <option value="boston">boston</option>
-              <option value="chicago">chicago</option>
-              <option value="global">global</option>
-              <option value="hong-kong">hong-kong</option>
-              <option value="london">london</option>
-              <option value="los-angeles">los-angeles</option>
-              <option value="melbourne">melbourne</option>
-              <option value="new-york-city">new-york-city</option>
-              <option value="online">online</option>
-              <option value="san-francisco">san-francisco</option>
-              <option value="seattle">seattle</option>
-              <option value="sydney">sydney</option>
-              <option value="washington-dc">washington-dc</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label class="col-xs-4 control-label text-right">utm_medium</label>
-          <div class="col-xs-8">
-            <select class="form-control">
-              <option value="ga_email">ga_email</option>
-              <option value="ga_social">ga_social</option>
-              <option value="partner_email">partner_email</option>
-              <option value="outreach">outreach</option>
-              <option value="cpc">cpc</option>
-              <option value="p_ad">p_ad</option>
-              <option value="r_ad">r_ad</option>
-              <option value="ntf_ad">ntf_ad</option>
-              <option value="display">display</option>
-              <option value="paid-blog">paid-blog</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label class="col-xs-4 control-label text-right">utm_source</label>
-          <div class="col-xs-8">
-            <select class="form-control">
-              <option value="ga_email">email_marketing_metro</option>
-              <option value="ga_social">email_studio</option>
-              <option value="partner_email">partner_email</option>
-              <option value="outreach">outreach</option>
-              <option value="cpc">cpc</option>
-              <option value="p_ad">p_ad</option>
-              <option value="r_ad">r_ad</option>
-              <option value="ntf_ad">ntf_ad</option>
-              <option value="display">display</option>
-              <option value="paid-blog">paid-blog</option>
-            </select>
-          </div>
-        </div>
-
-
+      <form class="form-horizontal" id="tagForm">
       </form>
+
+      <div class="row">
+        <div class="col-xs-12">
+          <label class="control-label">Content Area HTML</label>
+          <textarea class="form-control" id="contentArea" rows="5"></textarea>
+        </div>
+      </div>
+      <br>
+      <button type="button" class="btn btn-primary btn-block" id="sMTM">Show Me The Money!</button>
+      <br>
+      <div class="row">
+        <div class="col-xs-12">
+          <label class="control-label">Formatted HTML</label>
+          <textarea class="form-control" id="formattedHTML" rows="5"></textarea>
+        </div>
+      </div>
+      <br>
+
 
     </div>
 
@@ -99,5 +57,6 @@
     <script src="js/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="js/bootstrap.min.js"></script>
+    <script src="js/popup.js"></script>
   </body>
 </html>

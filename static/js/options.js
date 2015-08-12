@@ -18,7 +18,7 @@ $(document).ready(function() {
         var headingId = 'heading-' + thisTagName;
         var collapseId = 'collapse-' + thisTagName;
 
-        $('#accordion').append('<div class="panel panel-default">' +
+        $('#accordion').append('<div class="panel panel-default" id="panel-' + thisTagName + '">' +
             '<div class="panel-heading" role="tab" id="' + headingId +
               '"> <h4 class="panel-title">' +
                 '<a role="button" data-toggle="collapse" data-parent="#accordion" href="#' + collapseId + '" aria-expanded="false" aria-controls="' + collapseId +
@@ -51,6 +51,8 @@ $(document).ready(function() {
                       '</select>' +
                     '</div>' +
 
+                    '<button type="button" class="btn btn-danger deleteBtn" id="delete-' + thisTagName + '">Delete</button>'+
+
                   '</div>' +
 
                   '<div class="col-xs-6">' +
@@ -74,7 +76,6 @@ $(document).ready(function() {
         // Set Preferences
         document.getElementById('show-' + values["tagName"]).checked = values["is_shown"];
         document.getElementById('type-' + values["tagName"]).value = values["type"];
-        document.getElementById('defaultKey-' + values["tagName"]).checked = values["defaultKey"];
         // set keys
         $.each(values["keys"], function(key, value) {
           // Append to list
@@ -83,6 +84,7 @@ $(document).ready(function() {
           // Append to default keys
           $('#defaultKey-' + tagName).append('<option class="' + value + '" value="' + value + '">' + value + '</option>')
         });
+        document.getElementById('defaultKey-' + values["tagName"]).value = values["defaultKey"];
     });
   });
 });
@@ -104,7 +106,7 @@ $('#btnCreateTag').click(function() {
   var headingId = 'heading-' + thisTagName;
   var collapseId = 'collapse-' + thisTagName;
 
-  $('#accordion').append('<div class="panel panel-default">' +
+  $('#accordion').append('<div class="panel panel-default" id="panel-' + thisTagName + '">' +
       '<div class="panel-heading" role="tab" id="' + headingId +
         '"> <h4 class="panel-title">' +
           '<a role="button" data-toggle="collapse" data-parent="#accordion" href="#' + collapseId + '" aria-expanded="false" aria-controls="' + collapseId +
@@ -137,6 +139,7 @@ $('#btnCreateTag').click(function() {
                 '</select>' +
               '</div>' +
 
+              '<button type="button" class="btn btn-danger deleteBtn" id="delete-' + thisTagName + '">Delete</button>'+
             '</div>' +
 
             '<div class="col-xs-6">' +
@@ -174,18 +177,19 @@ $('body').delegate('.btnCreateValue', 'click', function() {
 $('#save').click(function saveChanges() {
   // Clear storage
   chrome.storage.sync.clear();
-  // Variables to store info
-  var tagName,
-      type,
-      is_shown,
-      keys = [],
-      defaultKey,
-      panel,
-      jsonObject,
-      dataToStore;
 
   // Map over each value
   $('.panel').find('.panel-heading').map(function() {
+    // Variables to store info
+    var tagName,
+        type,
+        is_shown,
+        keys = [],
+        defaultKey,
+        panel,
+        jsonObject,
+        dataToStore;
+
     tagName = $(this).attr('id').split("-")[1];
     console.log(tagName);
 
@@ -219,8 +223,17 @@ $('#save').click(function saveChanges() {
     obj[tagName] = dataToStore;
     chrome.storage.sync.set(obj, function() {
       // Notify that we saved.
-     $('.alert-success').removeClass('hidden');
+      $('.alert-success').removeClass('hidden');
     });
   });
+});
 
+$('body').delegate('.deleteBtn', 'click', function () {
+  // Get tag name
+  var tagName = $(this).attr('id').split("-")[1];
+  console.log(tagName);
+  $('#panel-' + tagName).hide('slow');
+  chrome.storage.sync.remove(tagName, function() {
+    location.reload();
+  });
 });
