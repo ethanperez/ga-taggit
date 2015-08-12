@@ -54,11 +54,22 @@ $(document).ready(function() {
 
 $('#sMTM').click(function() {
   // Find all the links
-  var arr = [];
-  var htmlString = document.getElementById('contentArea').value;
-  var re = /"https:/;
-  var found = htmlString.match(re);
+  // var $parsed = $.parseHTML(document.getElementById('contentArea').value)
+   var htmlString = document.getElementById('contentArea').value;
+  // var $anchors = $htmlString.find('a');
 
-  console.log(found);
+  // console.log($parsed);
+  $('.htmlTemplate').append(htmlString);
+  
+  // Get all the links now
+  var linkObjects = document.links;
+  for (var i = 0; i < linkObjects.length; i++) {
+
+    // Filter out correct links
+    if ((linkObjects[i].search).startsWith('?')) {
+      console.log(linkObjects[i])
+    }
+  }
+
 });
 
