@@ -68,6 +68,11 @@ $(document).ready(function() {
 //  Switch out the search links
 //  Add to completed textare
 $('#sMTM').click(function() {
+  // Clear the formatted area, string, and <p>
+  $('#formattedHTML').val("");
+  $('.htmlTemplate').text("");
+  var htmlString = "";
+
   // Build URI
   var searchURI = "?";
 
@@ -108,7 +113,7 @@ $('#sMTM').click(function() {
 
   // Find all the links
   // var $parsed = $.parseHTML(document.getElementById('contentArea').value)
-  var htmlString = document.getElementById('contentArea').value;
+  htmlString = document.getElementById('contentArea').value;
   // var $anchors = $htmlString.find('a');
 
   // console.log($parsed);
@@ -123,6 +128,7 @@ $('#sMTM').click(function() {
       linkObjects[i].search = searchURI;
     }
   }
+
 
   // Add it to the formatted box
   $('#formattedHTML').val($('.htmlTemplate').html());

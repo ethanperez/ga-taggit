@@ -1,14 +1,14 @@
 {
   "manifest_version": 2,
-  "name": "GA Swappy",
+  "name": "GA Taggit",
   "version": "0.1",
 
   "browser_action": {
-    "default_title": "Swappy",
+    "default_title": "Taggit",
      "default_icon": {
         "38": "static/img/logo.png"
     },
-    "default_popup": "static/index.html"
+    "default_popup": "static/popup.html"
   },
   "icons": { "128": "static/img/logo_128.png" },
   "options_page": "static/options.html",
