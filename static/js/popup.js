@@ -1,6 +1,11 @@
+// Global variable of array to
+// hold viewable keys/values
 var viewableArray = [];
 
-
+// On load:
+//  Pull keys/values from localStorage
+//  Check if the key is shown on form
+//  Format key/value 
 $(document).ready(function() {
   // Get the storage values
   chrome.storage.sync.get(null, function(items) {
@@ -56,6 +61,12 @@ $(document).ready(function() {
   });
 });
 
+
+// On click of execution script
+//  Create encode search URI
+//  Add the content area to a hidden <p>
+//  Switch out the search links
+//  Add to completed textare
 $('#sMTM').click(function() {
   // Build URI
   var searchURI = "?";
@@ -70,6 +81,8 @@ $('#sMTM').click(function() {
           // concat to string
           searchURI += encodeURI("&" + (viewableArray[i]["tagName"] + "=" + selected));
         } else {
+          // This is form KMI specifically
+          // HARD CODED IN - NEEDS TO CHANGE
           var e = document.getElementById('dd-' + viewableArray[i]["tagName"]);
           var selected = e.options[e.selectedIndex].value;
           // concat to string
@@ -93,9 +106,6 @@ $('#sMTM').click(function() {
     // }
   }
 
-  // Search string
-  console.log(searchURI);
-
   // Find all the links
   // var $parsed = $.parseHTML(document.getElementById('contentArea').value)
   var htmlString = document.getElementById('contentArea').value;
@@ -111,9 +121,6 @@ $('#sMTM').click(function() {
     // Filter out correct links
     if ((linkObjects[i].search).startsWith('?')) {
       linkObjects[i].search = searchURI;
-      console.log(linkObjects[i])
-      console.log(linkObjects[i].search)
-      // 
     }
   }
 
