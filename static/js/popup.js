@@ -68,10 +68,15 @@ $(document).ready(function() {
 //  Switch out the search links
 //  Add to completed textare
 $('#sMTM').click(function() {
+  
   // Clear the formatted area, string, and <p>
   $('#formattedHTML').val("");
   $('.htmlTemplate').text("");
-  var htmlString = "";
+
+  // Pull HTML from content area
+  var contentArea = $('#contentArea').val();
+  // Append HTML to hidden div
+  $('.htmlTemplate').append(contentArea);
 
   // Build URI
   var searchURI = "?";
@@ -80,57 +85,50 @@ $('#sMTM').click(function() {
     // Separate values for dd or textfield
     switch(viewableArray[i]["type"]) {
       case "dd":
-        if (viewableArray[i]["tagName"] !== "kmi"){
-          var e = document.getElementById('dd-' + viewableArray[i]["tagName"]);
-          var selected = e.options[e.selectedIndex].value;
-          // concat to string
-          searchURI += encodeURI("&" + (viewableArray[i]["tagName"] + "=" + selected));
+        var e = document.getElementById('dd-' + viewableArray[i]["tagName"]);
+        var selected = e.options[e.selectedIndex].value;
+        // concat to string
+        // but check if first value
+        if (i == 0) {
+          searchURI += encodeURI((viewableArray[i]["tagName"] + "=" + selected));
         } else {
-          // This is form KMI specifically
-          // HARD CODED IN - NEEDS TO CHANGE
-          var e = document.getElementById('dd-' + viewableArray[i]["tagName"]);
-          var selected = e.options[e.selectedIndex].value;
-          // concat to string
-          searchURI += ("&" + (viewableArray[i]["tagName"] + "=" + selected));
+          searchURI += encodeURI("&" + (viewableArray[i]["tagName"] + "=" + selected));
         }
         break;
 
       case "text":
         var e = document.getElementById('text-' + viewableArray[i]["tagName"]).value;
         // concat to string
-        searchURI += encodeURI("&" + (viewableArray[i]["tagName"] + "=" + e));
+        // but check if first value
+        if (i == 0) {
+          searchURI += encodeURI((viewableArray[i]["tagName"] + "=" + e));
+        } else {
+          searchURI += encodeURI("&" + (viewableArray[i]["tagName"] + "=" + e));
+        }
         break;
     }
-
-    // // CHECK FOR KMI
-    // console.log(viewableArray[i]["tagName"]);
-    // if (viewableArray[i]["tagName"] == "kmi") {
-    //   var e = document.getElementById('dd-kmi');
-    //   var selected = e.options[e.selectedIndex].value;
-    //   searchURI += ("&kmi=" + selected);
-    // }
   }
 
-  // Find all the links
-  // var $parsed = $.parseHTML(document.getElementById('contentArea').value)
-  htmlString = document.getElementById('contentArea').value;
-  // var $anchors = $htmlString.find('a');
-
-  // console.log($parsed);
-  $('.htmlTemplate').append(htmlString);
+  // Test search
+  console.log(searchURI);
   
-  // Get all the links now
-  var linkObjects = document.links;
-  for (var i = 0; i < linkObjects.length; i++) {
+  // Map through the links
+  $('.htmlTemplate').find("a").map(function() {
+    // Check for GA URL
+    if ($(this).prop('hostname') == 'generalassemb.ly' ||
+        $(this).prop('hostname') == 'go.generalassemb.ly' ||
+        $(this).prop('hostname') == 'ga.co') {
+      
+      // Create new href string
+      var newHref = $(this).prop('origin') + $(this).prop('pathname') + searchURI;
 
-    // Filter out correct links
-    if ((linkObjects[i].search).startsWith('?')) {
-      linkObjects[i].search = searchURI;
+      // Replace the href value
+      $(this).prop('href', newHref);
     }
-  }
+    
+  });
 
 
-  // Add it to the formatted box
+  // Add the new HTML to the formatted field
   $('#formattedHTML').val($('.htmlTemplate').html());
 });
-
